@@ -159,16 +159,15 @@ if ($conn->query($borrow_sql) === TRUE) {
           <li><a href="readBorrow.php">Daftar Peminjaman</a></li>
       </ul>
 	</header> 
-
 <div class="container">
   <main>
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
-            
+            <div class="Intro">
                 <h1 class="fw-light">Perpustakaan</h1>
                 <p class="lead text-muted">Website Peminjaman Buku Perpustakaan Diandra Rifqi M</p>
-        
+                </div>
             </div>
         </div>
     </section>

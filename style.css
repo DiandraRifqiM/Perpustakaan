@@ -13,6 +13,16 @@ ul {
   list-style: none;
 }
 
+.Intro {
+  margin-top: -15px;
+}
+
+h1 {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  color: #1322ef;
+}
+
 h2,
 h3,
 a {
@@ -65,8 +75,8 @@ a {
 }
 
 /* ================================= 
-    Media Queries
-  ==================================== */
+      Media Queries
+    ==================================== */
 
 @media (min-width: 769px) {
   .header,
@@ -76,7 +86,7 @@ a {
   .header {
     flex-direction: column;
     align-items: center;
-    header {
+    .header {
       width: 80%;
       margin: 0 auto;
       max-width: 1150px;
