@@ -69,43 +69,41 @@
 <div class="container">
   <main>
     <div class="py-5 text-center">
-      <h2>Menambahkan Buku</h2>
-      <p class="lead">Silakan Isi Data Buku</p>
+      <h2>Menambahkan Member</h2>
+      <p class="lead">Silakan Isi Data Yang Diminta</p>
     </div>
 
     <div class="row g-5">
       <!-- <div class="col-md-5 col-lg-4 order-md-last"></div> -->
       <div class="col-md-12 col-lg-12">
-        <h4 class="mb-3">Data Buku</h4>
-        <form class="needs-validation" novalidate method="post" action="addBook.php">
+        <h4 class="mb-3">Data Member</h4>
+        <form class="needs-validation" novalidate method="post" action="addMember.php">
           <div class="row g-3">
-            <div class="col-12">
-              <label for="title" class="form-label">Judul</label>
-              <input type="text" name="title" class="form-control" id="title" placeholder="Judul" value="" required>
+            <div class="col-sm-6">
+              <label for="first_name" class="form-label">Nama depan</label>
+              <input name="first_name" type="text" class="form-control" id="first_name" placeholder="" value="" required>
               <div class="invalid-feedback">
-                Masukkan judul buku yang valid.
+                Nama depan harus diisi.
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="last_name" class="form-label">Nama belakang</label>
+              <input type="text" name="last_name" class="form-control" id="last_name" placeholder="" value="" required>
+              <div class="invalid-feedback">
+                Nama belakang diisi.
               </div>
             </div>
 
             <div class="col-12">
-              <label for="author" class="form-label">Penulis</label>
-              <div class="input-group has-validation">
-                <input type="text" name="author" class="form-control" id="author" placeholder="Penulis" required>
+              <label for="email" class="form-label">Email</label>
+              <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com" required>
               <div class="invalid-feedback">
-                Masukkan nama penulis.
-                </div>
+                Pastikan email yang dimasukkan valid.
               </div>
             </div>
 
-            <div class="col-12">
-              <label for="published_date" class="form-label">Tanggal Terbit</label>
-              <input type="date" name="published_date" class="form-control" id="published_date" required>
-              <div class="invalid-feedback">
-                Masukkan tanggal buku diterbitkan.
-              </div>
-            </div>
-
-          <button class="w-100 btn btn-primary btn-lg" type="submit">Tambahkan buku</button>
+          <button class="w-100 btn btn-primary btn-lg" type="submit">Tambahkan member</button>
         </form>
       </div>
     </div>

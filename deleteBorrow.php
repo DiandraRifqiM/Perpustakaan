@@ -1,3 +1,32 @@
+<?php
+include 'variable.php';
+$variant = variable();
+
+if (isset($_GET['borrow_id'])) {
+
+  $servername = $variant[0];
+  $username = $variant[1];
+  $password = $variant[2];
+  $dbname = $variant[3];
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "DELETE FROM borrow WHERE borrow_id = ".$_GET['borrow_id'];
+    $result = $conn->query($sql);
+
+    if ($conn->query($sql) === TRUE) {
+    echo "borrow deleted successfully";
+    } else {
+    echo "Error deleting borrow: " . $conn->error;
+    }
+    $conn->close();
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -6,6 +35,7 @@
     <title>Perpustakaan</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style/delete.css" rel="stylesheet">
 
     <style>
       .bd-placeholder-img {
@@ -69,46 +99,10 @@
 <div class="container">
   <main>
     <div class="py-5 text-center">
-      <h2>Menambahkan Buku</h2>
-      <p class="lead">Silakan Isi Data Buku</p>
+      <h2>Menghapus data buku pinjaman</h2>
+      <p class="lead">Buku pinjaman berhasil dihapus</p>
     </div>
 
-    <div class="row g-5">
-      <!-- <div class="col-md-5 col-lg-4 order-md-last"></div> -->
-      <div class="col-md-12 col-lg-12">
-        <h4 class="mb-3">Data Buku</h4>
-        <form class="needs-validation" novalidate method="post" action="addBook.php">
-          <div class="row g-3">
-            <div class="col-12">
-              <label for="title" class="form-label">Judul</label>
-              <input type="text" name="title" class="form-control" id="title" placeholder="Judul" value="" required>
-              <div class="invalid-feedback">
-                Masukkan judul buku yang valid.
-              </div>
-            </div>
-
-            <div class="col-12">
-              <label for="author" class="form-label">Penulis</label>
-              <div class="input-group has-validation">
-                <input type="text" name="author" class="form-control" id="author" placeholder="Penulis" required>
-              <div class="invalid-feedback">
-                Masukkan nama penulis.
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12">
-              <label for="published_date" class="form-label">Tanggal Terbit</label>
-              <input type="date" name="published_date" class="form-control" id="published_date" required>
-              <div class="invalid-feedback">
-                Masukkan tanggal buku diterbitkan.
-              </div>
-            </div>
-
-          <button class="w-100 btn btn-primary btn-lg" type="submit">Tambahkan buku</button>
-        </form>
-      </div>
-    </div>
   </main>
 
   <footer class="my-5 pt-5 text-muted text-center text-small">
@@ -126,4 +120,9 @@
 
       <script src="form-validation.js"></script>
   </body>
+<?php
+} else {
+    echo "Invalid borrow_id!";
+}
+?>
 </html>

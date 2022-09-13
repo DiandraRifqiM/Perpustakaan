@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pinjam buku</title>
+    <title>Update Buku</title>
 </head>
 <body>
     
@@ -13,28 +13,46 @@ include 'variable.php';
 $variant = variable();
 
 // define variables and set to empty values
-$book_idErr = $member_idErr = "";
-$book_id = $member_id = "";
+$borrow_idErr = $book_idErr = $member_idErr = $statusErr = "";
+$borrow_id = $book_id = $member_id = $status = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+  if (empty($_POST["borrow_id"])) {
+    $borrow_idErr = "ID buku gagal diterima!";
+  } else {
+    $borrow_id = test_input($_POST["borrow_id"]);
+  }
+
   if (empty($_POST["book_id"])) {
-    $book_idErr = "Buku harus diisi!";
+    $book_idErr = "ID buku harus diisi!";
   } else {
     $book_id = test_input($_POST["book_id"]);
   }
 
   if (empty($_POST["member_id"])) {
-    $member_idErr = "Member harus diisi!";
+    $member_idErr = "ID member harus diisi!";
   } else {
     $member_id = test_input($_POST["member_id"]);
+    // check if member_id only contains letters and whitespace
   }
   
-    if ($book_idErr || $member_idErr ) {
-        echo "<h2>Submisi buku gagal:</h2>";
+  if (empty($_POST["status"])) {
+    $statusErr = "status harus diisi!";
+  } else {
+    $status = test_input($_POST["status"]);
+  }
+
+
+    if ($borrow_idErr || $book_idErr || $member_idErr || $statusErr) {
+        echo "<h2>Update data pinjaman gagal</h2>";
+        echo $borrow_idErr;
+        echo "<br>";
         echo $book_idErr;
         echo "<br>";
         echo $member_idErr;
+        echo "<br>";
+        echo $statusErr;
         echo "<br>";
     } else {
     $servername = $variant[0];
@@ -49,21 +67,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "INSERT INTO borrow (book_id, member_id, status)
-    VALUES ('".$book_id."', '".$member_id."', 'borrowed')";
+    $sql = "UPDATE borrow SET 
+    book_id = '".$book_id."'
+    ,member_id = '".$member_id."'
+    ,status = '".$status."'
+    WHERE borrow_id=".$borrow_id;
 
     if ($conn->query($sql) === TRUE) {
-    echo "New record created successfully";
+    echo "Record updated successfully";
     } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "Error updating record: " . $conn->error;
     }
 
     $conn->close();
 
-    echo "<h2>Data pinjaman berhasil diinput:</h2>";
+    echo "<h2>Data Buku berhasil diubah:</h2>";
     echo $book_id;
     echo "<br>";
     echo $member_id;
+    echo "<br>";
+    echo $status;
     echo "<br>";
     }
 } else {
@@ -79,3 +102,4 @@ function test_input($data) {
 ?>
 </body>
 </html>
+

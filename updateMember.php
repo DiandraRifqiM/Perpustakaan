@@ -1,3 +1,39 @@
+<?php
+include 'variable.php';
+$variant = variable();
+
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $first_name = $last_name = $email = "";
+
+    $servername = $variant[0];
+    $username = $variant[1];
+    $password = $variant[2];
+    $dbname = $variant[3];
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "SELECT member_id, first_name, last_name, email FROM member WHERE member_id = ".$_GET['member_id'];
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+            $first_name = $row['first_name'];
+            $last_name = $row['last_name'];
+            $email = $row['email'];
+        }
+    } else {
+        echo "0 results";
+    }
+
+    $conn->close();
+}
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -69,43 +105,44 @@
 <div class="container">
   <main>
     <div class="py-5 text-center">
-      <h2>Menambahkan Buku</h2>
-      <p class="lead">Silakan Isi Data Buku</p>
+      <h2>Menyunting Buku</h2>
+      <p class="lead">Silakan isi data buku yang akan diperbaharui di database.</p>
     </div>
 
     <div class="row g-5">
       <!-- <div class="col-md-5 col-lg-4 order-md-last"></div> -->
       <div class="col-md-12 col-lg-12">
         <h4 class="mb-3">Data Buku</h4>
-        <form class="needs-validation" novalidate method="post" action="addBook.php">
+        <form class="needs-validation" novalidate method="post" action="editMember.php">
           <div class="row g-3">
             <div class="col-12">
-              <label for="title" class="form-label">Judul</label>
-              <input type="text" name="title" class="form-control" id="title" placeholder="Judul" value="" required>
+              <input type="text" name="member_id" value="<?php echo $_GET['member_id']; ?>" hidden>
+              <label for="first_name" class="form-label">Nama depan</label>
+              <input type="text" name="first_name" class="form-control" id="first_name" value="<?php echo $first_name ?>" required>
               <div class="invalid-feedback">
-                Masukkan judul buku yang valid.
+                Masukkan nama depan yang valid.
               </div>
             </div>
 
             <div class="col-12">
-              <label for="author" class="form-label">Penulis</label>
+              <label for="last_name" class="form-label">Name belakang</label>
               <div class="input-group has-validation">
-                <input type="text" name="author" class="form-control" id="author" placeholder="Penulis" required>
+                <input type="text" name="last_name" class="form-control" id="last_name" value="<?php echo $last_name ?>" required>
               <div class="invalid-feedback">
-                Masukkan nama penulis.
+                Masukkan nama belakang.
                 </div>
               </div>
             </div>
 
             <div class="col-12">
-              <label for="published_date" class="form-label">Tanggal Terbit</label>
-              <input type="date" name="published_date" class="form-control" id="published_date" required>
+              <label for="email" class="form-label">Email</label>
+              <input type="text" name="email" value="<?php echo $email ?>" class="form-control" id="email" required>
               <div class="invalid-feedback">
-                Masukkan tanggal buku diterbitkan.
+                Masukkan email.
               </div>
             </div>
 
-          <button class="w-100 btn btn-primary btn-lg" type="submit">Tambahkan buku</button>
+          <button class="w-100 btn btn-primary btn-lg" type="submit">Update data</button>
         </form>
       </div>
     </div>

@@ -69,44 +69,64 @@
 <div class="container">
   <main>
     <div class="py-5 text-center">
-      <h2>Menambahkan Buku</h2>
-      <p class="lead">Silakan Isi Data Buku</p>
+      <h2>Data Member</h2>
+      <p class="lead">Daftar Member Yang Tersedia</p>
+      <a href="inputMember.php" class="btn btn-primary my-2">Tambah member</a>
     </div>
 
     <div class="row g-5">
       <!-- <div class="col-md-5 col-lg-4 order-md-last"></div> -->
       <div class="col-md-12 col-lg-12">
-        <h4 class="mb-3">Data Buku</h4>
-        <form class="needs-validation" novalidate method="post" action="addBook.php">
-          <div class="row g-3">
-            <div class="col-12">
-              <label for="title" class="form-label">Judul</label>
-              <input type="text" name="title" class="form-control" id="title" placeholder="Judul" value="" required>
-              <div class="invalid-feedback">
-                Masukkan judul buku yang valid.
-              </div>
-            </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Nama depan</th>
+                    <th scope="col">Nama belakang</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Tanggal daftar</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                include 'variable.php';
+                $variant = variable();
+                
+                $servername = $variant[0];
+                $username = $variant[1];
+                $password = $variant[2];
+                $dbname = $variant[3];
 
-            <div class="col-12">
-              <label for="author" class="form-label">Penulis</label>
-              <div class="input-group has-validation">
-                <input type="text" name="author" class="form-control" id="author" placeholder="Penulis" required>
-              <div class="invalid-feedback">
-                Masukkan nama penulis.
-                </div>
-              </div>
-            </div>
+                // Create connection
+                $conn = new mysqli($servername, $username, $password, $dbname);
+                // Check connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
 
-            <div class="col-12">
-              <label for="published_date" class="form-label">Tanggal Terbit</label>
-              <input type="date" name="published_date" class="form-control" id="published_date" required>
-              <div class="invalid-feedback">
-                Masukkan tanggal buku diterbitkan.
-              </div>
-            </div>
+                $sql = "SELECT * FROM member";
+                $result = $conn->query($sql);
 
-          <button class="w-100 btn btn-primary btn-lg" type="submit">Tambahkan buku</button>
-        </form>
+                if ($result->num_rows > 0) {
+                    // output data of each row
+                    while($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>".$row['first_name']."</td>";
+                        echo "<td>".$row['last_name']."</td>";
+                        echo "<td>".$row['email']."</td>";
+                        echo "<td>".$row['register_date']."</td>";
+                        echo "<td>"."<a type='button' class='btn btn-primary' href='updateMember.php?member_id=".$row['member_id']."'>Update</button>"."</td";
+                        echo "<td>"."<a type='button' class='btn btn-danger' href='deleteMember.php?member_id=".$row['member_id']."'>Hapus</button>"."</td";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "0 results";
+                }
+
+                $conn->close();
+                ?>
+            </tbody>
+        </table>
       </div>
     </div>
   </main>
