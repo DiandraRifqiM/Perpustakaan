@@ -66,6 +66,17 @@
   </head>
   <body class="bg-light">
     
+  <header class="header">
+		<h1 class="logo"><a href="index.php">Perpustakaan</a></h1>
+      <ul class="main-nav">
+         <li><a href="readMembers.php">Member</a></li>
+         <li><a href="inputBook.php">Tambah Buku</a></li>
+          <li><a href="inputBorrow.php">Pinjam Buku</a></li>
+          <li><a href="readBooks.php">Daftar Buku</a></li>
+          <li><a href="readBorrow.php">Daftar Peminjaman</a></li>
+      </ul>
+	</header> 
+
 <div class="container">
   <main>
     <div class="py-5 text-center">
